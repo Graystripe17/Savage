@@ -3,12 +3,21 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>        
 <title>Savage</title>
 <style>
-{
-    margin: 8px;
+* {
+    margin: 10px;
 }
 </style>
 <script>
     'use strict';
+    $(document).keypress(function(e) {
+        if (e.which == 13) {
+            add()
+        }
+    })
+    $('#new_task_text').focusout(function() {
+        $('#new_task_text').focus();
+    });
+//    setTimeout($('#new_task_text').focus, 1000)
     function remove() {
         this.parentNode.removeChild(this)
     }
@@ -28,9 +37,12 @@
     }
 </script>
 
-Task: 
-<input id="new_task_text" name="new_task" type="text" />
-<button class="btn btn-primary" type="button" text="Submit" onclick="add()"></button>
+<div class="input-group">
+    <span class="input-group-addon" id="task-description">Task </span>
+    <input id="new_task_text" name="new_task" type="text" class="form-control" aria-describedby="task-description" />
+</div>
+
+<button class="btn btn-primary hidden" type="button" text="Submit" onclick="add()"></button>
 
     <div id="checks">
         <ul class="list-group">
