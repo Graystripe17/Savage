@@ -9,6 +9,12 @@
 </style>
 <script>
     'use strict';
+    $(document).ready(function() {
+        var retrieved = JSON.parse(localStorage.getItem("savedJSON"))
+        retrieved.forEach(function(target) {
+            displayOne(target)
+        })
+    })
     $(document).keypress(function(e) {
         if (e.which == 13) {
             add()
@@ -17,9 +23,13 @@
     $('#new_task_text').focusout(function() {
         $('#new_task_text').focus();
     });
-//    setTimeout($('#new_task_text').focus, 1000)
-    function remove() {
-        this.parentNode.removeChild(this)
+
+    function remove(input, li) {
+        var retrieved = JSON.parse(localStorage.getItem("savedJSON"))
+        var index = retrieved.indexOf(input)
+        retrieved.splice(index, 1)
+        localStorage.setItem("savedJSON", JSON.stringify(retrieved))
+        li.parentNode.removeChild(li)
     }
     function add() {
         var input = document.getElementById("new_task_text").value 
@@ -28,10 +38,18 @@
         }
         document.getElementById("new_task_text").value = ""
 
+		displayOne(input)
+
+        // Convert from JSON to array, push, and resave
+        var retrieved = JSON.parse(localStorage.getItem("savedJSON"))
+        retrieved.push(input)
+        localStorage.setItem("savedJSON", JSON.stringify(retrieved))
+    }
+    function displayOne(input) {
         var li = document.createElement("li")
         li.className = "list-group-item"
         li.appendChild(document.createTextNode(input))
-        li.addEventListener('click', remove)
+        li.addEventListener('click', (() => remove(input, li)))
         var ul = document.getElementById("checks")
         ul.appendChild(li)
     }
