@@ -1,0 +1,41 @@
+<!DOCTYPE.html>
+<script src="jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>        
+<title>Savage</title>
+<style>
+{
+    margin: 8px;
+}
+</style>
+<script>
+    'use strict';
+    function remove() {
+        this.parentNode.removeChild(this)
+    }
+    function add() {
+        var input = document.getElementById("new_task_text").value 
+        if (!input) {
+            return
+        }
+        document.getElementById("new_task_text").value = ""
+
+        var li = document.createElement("li")
+        li.className = "list-group-item"
+        li.appendChild(document.createTextNode(input))
+        li.addEventListener('click', remove)
+        var ul = document.getElementById("checks")
+        ul.appendChild(li)
+    }
+</script>
+
+Task: 
+<input id="new_task_text" name="new_task" type="text" />
+<button class="btn btn-primary" type="button" text="Submit" onclick="add()"></button>
+
+    <div id="checks">
+        <ul class="list-group">
+            
+        </ul>
+    </div>
+
+</html>
