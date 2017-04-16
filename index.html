@@ -10,6 +10,9 @@
 <script>
     'use strict';
     $(document).ready(function() {
+        if (localStorage.getItem("savedJSON") == null) {
+            localStorage.setItem("savedJSON", "[]")
+        }
         var retrieved = JSON.parse(localStorage.getItem("savedJSON"))
         retrieved.forEach(function(target) {
             displayOne(target)
@@ -41,7 +44,7 @@
 		displayOne(input)
 
         // Convert from JSON to array, push, and resave
-        var retrieved = JSON.parse(localStorage.getItem("savedJSON"))
+        var retrieved = JSON.parse(localStorage.getItem("savedJSON")) || []
         retrieved.push(input)
         localStorage.setItem("savedJSON", JSON.stringify(retrieved))
     }
