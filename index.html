@@ -23,16 +23,21 @@
             add()
         }
     })
-    $('#new_task_text').focusout(function() {
-        $('#new_task_text').focus();
-    });
-
     function remove(input, li) {
         var retrieved = JSON.parse(localStorage.getItem("savedJSON"))
         var index = retrieved.indexOf(input)
         retrieved.splice(index, 1)
         localStorage.setItem("savedJSON", JSON.stringify(retrieved))
         li.parentNode.removeChild(li)
+    }
+    function select(input, li) {
+        if (li.classList.contains("active")) {
+            li.classList.remove("active")
+        } else {
+            // Deselect everybody else's active
+            $('.list-group-item').parent().find('li').removeClass('active')
+            li.classList.add("active")
+        }
     }
     function add() {
         var input = document.getElementById("new_task_text").value 
@@ -48,11 +53,21 @@
         retrieved.push(input)
         localStorage.setItem("savedJSON", JSON.stringify(retrieved))
     }
+    function hoverOn() {
+        $(this).addClass('list-group-item-info')
+    }
+    function hoverOff() {
+        $(this).removeClass('list-group-item-info')
+    }
     function displayOne(input) {
         var li = document.createElement("li")
-        li.className = "list-group-item"
+        li.className = "list-group-item hi-scroll-over"
         li.appendChild(document.createTextNode(input))
-        li.addEventListener('click', (() => remove(input, li)))
+        li.addEventListener('click', (() => select(input, li)))
+        li.addEventListener('dblclick', (() => remove(input, li)))
+		li.addEventListener('mouseenter', hoverOn)
+		li.addEventListener('mouseleave', hoverOff)
+
         var ul = document.getElementById("checks")
         ul.appendChild(li)
     }
